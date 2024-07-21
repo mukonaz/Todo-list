@@ -1,20 +1,43 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const Registration = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useNavigate()
+    async function submit(e) {
+        e.preventDefault();
+
+        try {
+            await axios.post("http://localhost:8000/registration", {
+                email, password
+            })
+            .then(res => {
+                if (res.data === "exist") { // Use === for comparison
+                    alert("user already exists");
+                    navigate("/home", { state: { id: email } });
+                } else if (res.data === "notexist") { // Use === for comparison
+                    navigate("/home", { state: { id: email } });
+                }
+            })
+            .catch(e => {
+                alert("wrong details");
+                console.log(e);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     const handleLogin = () => {
-        navigate('/login')
+        navigate('/login');
     }
-  return (
-    <div className="container" style={{ marginTop: "10vh" }}>
-            <form >
+
+    return (
+        <div className="container" style={{ marginTop: "10vh" }}>
+            <form>
                 <h2> Create your account</h2>
                 <p>Welcome </p>
                 <div className="mb-3">
@@ -25,10 +48,10 @@ export const Registration = () => {
                     <label htmlFor="password" className="form-label">Password :</label>
                     <input onChange={e => { setPassword(e.target.value) }} type="password" className="form-control" id="password" />
                 </div>
-                <button onClick={handleLogin} >LOG IN</button>
+                <button type="button" onClick={handleLogin}>LOG IN</button>
                 <p style={{ marginTop: "2vh" }}>Have an account?<Link to={'/login'}>Login</Link></p>
-
+               
             </form>
         </div>
-  )
+    );
 }

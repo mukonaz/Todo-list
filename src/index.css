@@ -32,6 +32,25 @@ button{
 .delete-button:hover{
   background-color: hsl(10, 90%, 40%);
 }
+.edit-button{
+  margin-left: 15px;
+  border-radius: 25px;
+  background-color: hsl(125, 46%, 54%);
+  margin-right: 5%;
+
+}
+.edit-button:hover{
+  background-color: hsl(125, 46%, 34%);
+}
+.combobox{
+  margin-left: 15px;
+  border-radius: 25px;
+  width: 100px; 
+  height: 48px; 
+  font-size: 16px;
+  padding: 5px; 
+  background-color: aquamarine;
+}
 input[type="text"]{
   font-size: 1.6rem;
   padding: 10px;
