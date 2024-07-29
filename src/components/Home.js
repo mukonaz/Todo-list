@@ -1,49 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const Home = () => {
-  const [tasks, setTasks] = useState([
-    { text: 'Eat', priority: 'Medium' },
-    { text: 'Shower', priority: 'Low' },
-    { text: 'Code', priority: 'High' },
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [newPriority, setNewPriority] = useState('Medium');
   const [editIndex, setEditIndex] = useState(null);
 
-  function handleTaskChange(event) {
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/tasks');
+      setTasks(response.data.data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  };
+
+  const handleTaskChange = (event) => {
     setNewTask(event.target.value);
-  }
+  };
 
-  function handlePriorityChange(event) {
+  const handlePriorityChange = (event) => {
     setNewPriority(event.target.value);
-  }
+  };
 
-  function addOrEditTask() {
+  const addOrEditTask = async () => {
     if (newTask.trim() !== '') {
       if (editIndex !== null) {
-        const updatedTasks = tasks.map((task, index) =>
-          index === editIndex ? { text: newTask, priority: newPriority } : task
-        );
-        setTasks(updatedTasks);
-        setEditIndex(null);
+        try {
+          await axios.put(`http://localhost:8000/tasks/${editIndex}`, {
+            text: newTask,
+            priority: newPriority,
+          });
+          fetchTasks();
+          setEditIndex(null);
+        } catch (error) {
+          console.error('Error updating task:', error);
+        }
       } else {
-        setTasks(t => [...t, { text: newTask, priority: newPriority }]);
+        try {
+          await axios.post('http://localhost:8000/tasks', {
+            text: newTask,
+            priority: newPriority,
+          });
+          fetchTasks();
+        } catch (error) {
+          console.error('Error adding task:', error);
+        }
       }
       setNewTask('');
       setNewPriority('Medium');
     }
-  }
+  };
 
-  function deleteTask(index) {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
-  }
+  const deleteTask = async (index) => {
+    try {
+      await axios.delete(`http://localhost:8000/tasks/${index}`);
+      fetchTasks();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
 
-  function editTask(index) {
-    setNewTask(tasks[index].text);
-    setNewPriority(tasks[index].priority);
+  const editTask = (index) => {
+    const task = tasks.find((task) => task.id === index);
+    setNewTask(task.text);
+    setNewPriority(task.priority);
     setEditIndex(index);
-  }
+  };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -78,15 +106,15 @@ export const Home = () => {
         </button>
       </div>
       <ol>
-        {tasks.map((task, index) => (
-          <li key={index}>
+        {tasks.map((task) => (
+          <li key={task.id}>
             <span className='text' style={{ color: getPriorityColor(task.priority) }}>
               {task.text} ({task.priority})
             </span>
-            <button className='edit-button' onClick={() => editTask(index)}>
+            <button className='edit-button' onClick={() => editTask(task.id)}>
               Edit
             </button>
-            <button className='delete-button' onClick={() => deleteTask(index)}>
+            <button className='delete-button' onClick={() => deleteTask(task.id)}>
               Delete
             </button>
           </li>
