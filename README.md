@@ -90,6 +90,7 @@ To run this project locally, follow these steps:
    cd src
    cd server
    Run node server
+   ```
 6. Go into Todo-list to run the following:
    ```
    npm start
