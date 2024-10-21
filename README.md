@@ -81,18 +81,16 @@ To run this project locally, follow these steps:
    ```bash
    npm start
    ```
-4. Open the app in your browser:
+4. Open the Terminal:
    ```
-   http://localhost:3000
+   Run json-server --watch db.json
+   ```
+5.Open the Terminal:
+   ```
+   cd src
+   cd server
+   Run node server
+6. Go into Todo-list to run the following:
+   ```
+   npm start
 
-5. The app server is running on:
-   ```
-   http://localhost:3002 
-
-6. Go into src/db to run the following:
-   ```
-   [ json-server --watch db.json --port 5000 ]
-
-7. Domain Name:   
-   ```
-   https://todo-list-sooty-gamma-59.vercel.app/

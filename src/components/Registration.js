@@ -11,11 +11,11 @@ export const Registration = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.get(`http://localhost:8000/users?email=${email}`);
+            const res = await axios.get(`http://localhost:3000/users?email=${email}`);
             if (res.data.length > 0) {
                 alert('User already exists');
             } else {
-                await axios.post('http://localhost:8000/users', { email, password });
+                await axios.post('http://localhost:3000/users', { email, password });
                 localStorage.setItem('user', JSON.stringify({ email }));
                 navigate('/home', { state: { id: email } });
             }

@@ -12,7 +12,7 @@ export const Login = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.get(`http://localhost:8000/users?email=${email}&password=${password}`);
+            const res = await axios.get(`http://localhost:3000/users?email=${email}&password=${password}`);
             if (res.data.length > 0) {
                 localStorage.setItem('user', JSON.stringify({ email }));
                 navigate('/home', { state: { id: email } });
