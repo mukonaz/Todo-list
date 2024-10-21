@@ -61,8 +61,8 @@ This is a **To-Do List App** built using **React.js** and **CSS**, with **LocalS
 
 
 ## Images
-![To-Do List Screen](src/images/Todo.png)
-![Edit Task Form](src/images/Todo4.png)
+![To-Do List Screen]
+![Screenshot 2024-10-21 104458](https://github.com/user-attachments/assets/febf781d-9629-46b5-a32c-11e45aa2c45c)
 
 
 ## Installation
@@ -70,7 +70,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Cornel-MIT/Todo-List.git
+   
    ```
 2. Install the dependencies:
    ```bash
